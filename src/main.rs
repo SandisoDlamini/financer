@@ -26,7 +26,6 @@ fn user_input() -> f64 {
 
         return income;
 
-
     }
 }
 
@@ -44,6 +43,6 @@ fn money_divider(a: f64) {
 }
 
 fn main() {
-    println!("Hello, Siphesihle!");
+    println!("Hello, User!");
     money_divider(user_input());
 }
