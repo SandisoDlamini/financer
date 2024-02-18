@@ -66,7 +66,7 @@ fn open_file(filename: String) {
 
     for i in amount.into_iter() {
         println!("{}", format!("{:.2}", &i));
-        let j = format!("{:.2}", i);
+        let j = format!("{:.2}", i);    
         file.write(j.as_bytes()).expect("Failed to write to file");
     }
 }
