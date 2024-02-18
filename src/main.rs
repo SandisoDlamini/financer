@@ -1,7 +1,7 @@
 use std::io;
 use std::fs::File;
 use std::io::prelude::*;
-use std::{fs, path::Path};
+use std::fs;
 
 const SAVINGS_PERCENTAGE: f64 = 0.5;
 const SPENDING_PERCENTAGE: f64 = 0.3;
@@ -55,35 +55,36 @@ fn open_file(filename: String) {
 
     let file_name = &filename;
     
-    let directory_name_string = String::from("./src/month_files/");
+    // let directory_name_string = String::from("./src/month_files/");
     
-    let file_name_added = directory_name_string + file_name + ".txt";
+    // let file_name_added = directory_name_string + file_name + ".txt";
 
-    let file_name_string = file_name_added.as_str();
+    // let file_name_string = file_name_added.as_str();
 
-    println!("{}", file_name_string);
+    // println!("{}", file_name_string);
 
-    let one = fs::canonicalize("./src/month_files/").expect("ffsfsdfsdf");
+    // let one = fs::canonicalize("./src/month_files/").expect("ffsfsdfsdf");
 
-    let two = one.into_os_string().into_string().unwrap();
+    // let two = one.into_os_string().into_string().unwrap();
 
-    let three = two + "/" + file_name + ".txt";
+    // let three = two + "/" + file_name + ".txt";
 
-    println!("{}", format!("{:?}", three));
+    // println!("{}", format!("{:?}", three));
 
-    // let file_path = fs::canonicalize("./src/month_files/").expect("Cannot get path");
-  
-    // assert!(Path::new("./month_files/").is_relative());
-    // println!("{}", format!("{:?}",file_path));
+    let file_path_buff = fs::canonicalize("./src/month_files/").expect("Cannot get path");
+    let inter_file_path = file_path_buff.into_os_string()
+        .into_string()
+        .expect("cannot convert file path");
+    let file_path = inter_file_path + "/" + file_name + ".txt";
+    
+    let mut file = File::create(file_path).expect("Failed to create file");
+    let amount = money_divider(user_input());
 
-    // let mut file = File::create(file_path).expect("Failed to create file");
-    // let amount = money_divider(user_input());
-
-    // for i in amount.into_iter() {
-    //     println!("{}", format!("{:.2}", &i));
-    //     let j = format!("{:.2}", i);
-    //     file.write(j.as_bytes()).expect("Failed to write to file");
-    // }
+    for i in amount.into_iter() {
+        println!("{}", format!("{:.2}", &i));
+        let j = format!("{:.2}", i);
+        file.write(j.as_bytes()).expect("Failed to write to file");
+    }
 }
 
 fn user_input() -> f64 {
