@@ -54,22 +54,6 @@ fn create_file() -> String {
 fn open_file(filename: String) {
 
     let file_name = &filename;
-    
-    // let directory_name_string = String::from("./src/month_files/");
-    
-    // let file_name_added = directory_name_string + file_name + ".txt";
-
-    // let file_name_string = file_name_added.as_str();
-
-    // println!("{}", file_name_string);
-
-    // let one = fs::canonicalize("./src/month_files/").expect("ffsfsdfsdf");
-
-    // let two = one.into_os_string().into_string().unwrap();
-
-    // let three = two + "/" + file_name + ".txt";
-
-    // println!("{}", format!("{:?}", three));
 
     let file_path_buff = fs::canonicalize("./src/month_files/").expect("Cannot get path");
     let inter_file_path = file_path_buff.into_os_string()
