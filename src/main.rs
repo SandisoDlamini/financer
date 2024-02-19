@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::io;
 use std::fs::File;
 use std::io::prelude::*;
@@ -62,13 +63,29 @@ fn open_file(filename: String) {
     let file_path = inter_file_path + "/" + file_name + ".txt";
     
     let mut file = File::create(file_path).expect("Failed to create file");
+    
     let amount = money_divider(user_input());
+    
+    let amount_vec = amount.0;
 
-    for i in amount.into_iter() {
-        println!("{}", format!("{:.2}", &i));
+    for i in amount_vec.into_iter() {
         let j = format!("{:.2}", i);    
         file.write(j.as_bytes()).expect("Failed to write to file");
+        file.write("\n".as_bytes()).expect("no newline created");
     }
+
+    let amount_dict = amount.1;
+
+    for (key, value) in &amount_dict {
+        let value = format!("{:.2}", value);
+        println!("{key}: {value}");
+        file.write(key.as_bytes()).expect("could not write to dictionary");
+        file.write(": ".as_bytes()).expect("could not write to dictionary");
+        file.write(value.as_bytes()).expect("could not write to dictionary");
+        file.write("\n".as_bytes()).expect("could not write to dictionary");
+
+    }
+
 }
 
 fn user_input() -> f64 {
@@ -95,7 +112,7 @@ fn user_input() -> f64 {
     }
 }
 
-fn money_divider(a: f64) -> Vec<f64> {
+fn money_divider(a: f64) -> (Vec<f64>, HashMap<String, f64>) {
 
     let gross_income = &a;
     let savings = &*gross_income * SAVINGS_PERCENTAGE;
@@ -108,7 +125,13 @@ fn money_divider(a: f64) -> Vec<f64> {
 
     let expenditure = vec![savings, spending_budget, surplus_budget];
 
-    return expenditure
+    let mut dict_expenses = HashMap::new();
+
+    dict_expenses.insert(String::from("savings"), savings);
+    dict_expenses.insert(String::from("spending_budget"), spending_budget);
+    dict_expenses.insert(String::from("surplus_budget"), surplus_budget);
+
+    return (expenditure, dict_expenses)
 
 }
 
